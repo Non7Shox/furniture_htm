@@ -6,6 +6,7 @@ class ProductsListView(ListView):
     template_name = 'products/products_list.html'
     model = ProductsModel
     context_object_name = 'products'
+    paginate_by = 2
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -28,4 +29,3 @@ class ProductsDetailView(DetailView):
         context["famous_blogs"] = ProductsModel.objects.all().order_by('created_at')[:2]
         context["related_blogs"] = ProductsModel.objects.filter(categories__in=self.object.categories.all())[:3]
         return context
-

@@ -64,22 +64,19 @@
                                         <div class="page-list col">
                                             <ul class="justify-content-center d-flex">
                                                 <li>
-                                                    <a rel="prev" href="#" class="previous disabled js-search-link">
+                                                    <a rel="prev" href="{% if page_obj.has_previous %}{{ page_obj.previous_page_number }}{% else %}#{% endif %}" class="previous {% if not page_obj.has_previous %}disabled{% endif %} js-search-link">
                                                         Previous
                                                     </a>
                                                 </li>
-                                                <li class="current active">
-                                                    <a rel="nofollow" href="#" class="disabled js-search-link">
-                                                        1
+                                                {% for page in page_obj.paginator.page_range %}
+                                                <li class="{% if page == page_obj.number %}current active{% endif %}">
+                                                    <a rel="nofollow" href="?page={{ page }}" class="js-search-link">
+                                                        {{ page }}
                                                     </a>
                                                 </li>
+                                                {% endfor %}
                                                 <li>
-                                                    <a rel="nofollow" href="#" class="disabled js-search-link">
-                                                        2
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a rel="next" href="#" class="next disabled js-search-link">
+                                                    <a rel="next" href="{% if page_obj.has_next %}{{ page_obj.next_page_number }}{% else %}#{% endif %}" class="next {% if not page_obj.has_next %}disabled{% endif %} js-search-link">
                                                         Next
                                                     </a>
                                                 </li>
@@ -95,6 +92,7 @@
         </div>
     </div>
 {% endblock %}
+
 {% block extra_js %}
         <script>
         function addUrlParameter(name, value) {

@@ -7,7 +7,9 @@
                                             <div class="block-content">
                                                 {% for cat in category %}
                                                 <div class="cateTitle hasSubCategory open level1">
-                                                    <a class="cateItem" href="?cat={{ cat.id }}">{{ cat.name }}</a>
+                                                    <a {% if 'blogs/detail' in request.path %} href="{% url 'blogs:list' %}?cat={{ cat.pk }}" {% else %} style="cursor: pointer" class="cateItem" onclick="addUrlParameter('cat', '{{ cat.pk }}')"
+                                                    {% endif %}
+                                                    >{{ cat.name }}</a>
                                                 </div>
                                                 {% endfor %}
                                             </div>
@@ -49,7 +51,11 @@
                                                 <ul class="listSidebarBlog list-unstyled">
                                                     {% for tag in tags %}
                                                     <li>
-                                                        <a href="#" title="Show products matching tag Hot Trend">{{ tag.name }}</a>
+                                                        <a
+                                                        {% if 'blogs/detail' in request.path %} href="{% url 'blogs:list' %}?tag={{ tag.id }}"
+                                                        {% else %} style="cursor: pointer" onclick="addUrlParameter('tag', '{{ tag.pk }}')"
+                                                        {% endif %}
+                                                                 title="Show products matching tag Hot Trend">{{ tag.name }}</a>
                                                     </li>
                                                     {% endfor %}
                                                 </ul>

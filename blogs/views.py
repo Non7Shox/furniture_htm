@@ -1,4 +1,3 @@
-import self
 from django.views.generic import ListView, DetailView
 
 from blogs.models import BlogModel, BlogCategoryModel, BlogTagModel
@@ -7,20 +6,27 @@ from blogs.models import BlogModel, BlogCategoryModel, BlogTagModel
 class BlogsListView(ListView):
     template_name = 'blogs/blog-list.html'
     context_object_name = 'blogs'
-    model = BlogModel
+    paginate_by = 2
+
+    def get_queryset(self):
+        qs = BlogModel.objects.all().order_by('-pk')
+        cat = self.request.GET.get('cat')
+        tag = self.request.GET.get('tag')
+
+        if cat:
+            qs = qs.filter(category=cat)
+        if tag:
+            qs = qs.filter(tags=tag)
+
+        return qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        blogs = BlogModel.objects.all()
-        cat = self.request.GET.get('cat')
-        if cat:
-            blogs = blogs.filter(category=cat)
-
-        context = {
-            "blogs": blogs,
+        context = super().get_context_data(**kwargs)
+        context.update({
             "category": BlogCategoryModel.objects.all(),
             "tags": BlogTagModel.objects.all(),
-            "famous_blogs": BlogModel.objects.all().order_by('created_at')[:2],
-        }
+            "famous_blogs": BlogModel.objects.all().order_by('-created_at')[:2],
+        })
         return context
 
 

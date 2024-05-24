@@ -203,3 +203,17 @@
     </div>
 
 {% endblock %}
+
+{% block extra_js %}
+        <script>
+        function addUrlParameter(name, value) {
+            let searchParams = new URLSearchParams(window.location.search)
+            if (searchParams.has(name) && searchParams.get(name) === value) {
+                searchParams.delete(name)
+            } else {
+                searchParams.set(name, value)
+            }
+            window.location.search = searchParams.toString()
+        }
+    </script>
+{% endblock %}
