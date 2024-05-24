@@ -1,3 +1,4 @@
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 
 
@@ -56,6 +57,8 @@ class BlogModel(models.Model):
     tags = models.ManyToManyField(BlogTagModel, related_name='tags')
     authors = models.ForeignKey(AuthorModel, on_delete=models.CASCADE, related_name='blogs')
 
+    test_editor = RichTextUploadingField(null=True, blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -65,3 +68,4 @@ class BlogModel(models.Model):
     class Meta:
         verbose_name = 'blog'
         verbose_name_plural = 'blogs'
+
