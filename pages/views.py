@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import TemplateView, CreateView
 
 from pages.form import ContactModelForm
@@ -12,4 +11,3 @@ class ContactTemplateView(CreateView):
     template_name = 'contact.html'
     form_class = ContactModelForm
     success_url = '/'
-
